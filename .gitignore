@@ -7,3 +7,4 @@ img
 include
 js
 vendor
+.DS_Store
