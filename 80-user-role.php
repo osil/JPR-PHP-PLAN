@@ -68,6 +68,7 @@ $fac_id = $_SESSION["sess-pjr-fac_id"];
                                                     <th>ตัวเลือก</th>
                                                 </tr>
                                             </thead>
+
                                             <tbody>
                                                 <?php
                                                 $i = 1;
