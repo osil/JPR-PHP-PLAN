@@ -195,10 +195,7 @@ $fac_id = $_SESSION["sess-pjr-fac_id"];
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                            <button class="btn btn-primary mb-3">Save Settings</button>
-                                            <button class="btn btn-danger mb-3">ย้อนกลับ</button>
-                                        </div>
+
                                     </div>
 
                                 </div>
