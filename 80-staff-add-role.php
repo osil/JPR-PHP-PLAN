@@ -8,7 +8,26 @@ if ($code == 0) {
     echo "Please Set code variable.";
     exit();
 }
-$fac_id = $_SESSION["sess-pjr-fac_id"];
+$staffid = $_GET["staffid"];
+$sql = "SELECT
+u.staffid,
+u.staffname,
+d.FACULTYNAME,
+IFNULL( d.DEPARTMENTNAME, d.FACULTYNAME ) AS DEPARTMENTNAME,
+IFNULL( d.SECTIONNAME, d.DEPARTMENTNAME ) AS SECTIONNAME,
+u.fac_id,
+u.dept_id,
+u.dept_code,
+u.`status` 
+FROM
+sysuser AS u
+INNER JOIN departments AS d ON d.DEPARTMENTID = u.dept_id
+WHERE u.staffid = :staffid";
+$params = array("staffid" => $staffid);
+$result = $con->prepare($sql);
+$res = $result->execute($params);
+$default = $result->fetch();
+
 
 ?>
 <!doctype html>
@@ -55,7 +74,7 @@ $fac_id = $_SESSION["sess-pjr-fac_id"];
                             <!-- Card start -->
                             <div class="card">
                                 <div class="card-header-lg">
-                                    <h4>Account Settings</h4>
+                                    <h4>รายละเอียด</h4>
                                 </div>
                                 <div class="card-body">
 
@@ -63,95 +82,39 @@ $fac_id = $_SESSION["sess-pjr-fac_id"];
                                         <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12">
                                             <div class="row gutters">
 
-                                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                                     <!-- Field wrapper start -->
                                                     <div class="field-wrapper">
-                                                        <input type="text" class="form-control" placeholder="Abigail">
-                                                        <div class="field-placeholder">First Name</div>
-                                                    </div>
-                                                    <!-- Field wrapper end -->
-                                                </div>
-                                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                                    <!-- Field wrapper start -->
-                                                    <div class="field-wrapper">
-                                                        <input type="text" class="form-control" placeholder="Winter">
-                                                        <div class="field-placeholder">Last Name</div>
-                                                    </div>
-                                                    <!-- Field wrapper end -->
-                                                </div>
-                                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                                    <!-- Field wrapper start -->
-                                                    <div class="field-wrapper">
-                                                        <input type="text" class="form-control" placeholder="abigail.winter786@wmail.com">
-                                                        <div class="field-placeholder">Email</div>
-                                                    </div>
-                                                    <!-- Field wrapper end -->
-                                                </div>
-                                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                                    <!-- Field wrapper start -->
-                                                    <div class="field-wrapper">
-                                                        <input type="text" class="form-control" placeholder="123-456-7890">
-                                                        <div class="field-placeholder">Phone</div>
+                                                        <input type="text" class="form-control" placeholder="" value="<?php echo $default['staffname'] ?>" disabled>
+                                                        <div class="field-placeholder">ชื่อ - สกุล</div>
                                                     </div>
                                                     <!-- Field wrapper end -->
                                                 </div>
                                                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                                     <!-- Field wrapper start -->
                                                     <div class="field-wrapper">
-                                                        <input type="text" class="form-control" placeholder="1980 Walnut Street">
-                                                        <div class="field-placeholder">Address</div>
+                                                        <input type="text" class="form-control" placeholder="" value="<?php echo $default['FACULTYNAME'] ?>" disabled>
+                                                        <div class="field-placeholder">คณะ</div>
                                                     </div>
                                                     <!-- Field wrapper end -->
                                                 </div>
-                                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                                     <!-- Field wrapper start -->
                                                     <div class="field-wrapper">
-                                                        <input type="text" class="form-control" placeholder="Mcallen">
-                                                        <div class="field-placeholder">City</div>
+                                                        <input type="text" class="form-control" placeholder="" value="<?php echo $default['DEPARTMENTNAME'] ?>" disabled>
+                                                        <div class="field-placeholder">หน่วยงาน</div>
                                                     </div>
                                                     <!-- Field wrapper end -->
                                                 </div>
-                                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                                     <!-- Field wrapper start -->
                                                     <div class="field-wrapper">
-                                                        <input type="text" class="form-control" placeholder="New York">
-                                                        <div class="field-placeholder">State</div>
+                                                        <input type="text" class="form-control" placeholder="" value="<?php echo $default['SECTIONNAME'] ?>" disabled>
+                                                        <div class="field-placeholder">สาขา/กอง</div>
                                                     </div>
                                                     <!-- Field wrapper end -->
                                                 </div>
-                                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                                    <!-- Field wrapper start -->
-                                                    <div class="field-wrapper">
-                                                        <input type="text" class="form-control" placeholder="11789">
-                                                        <div class="field-placeholder">Zip Code</div>
-                                                    </div>
-                                                    <!-- Field wrapper end -->
-                                                </div>
-                                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                                    <!-- Field wrapper start -->
-                                                    <div class="field-wrapper">
-                                                        <select class="select-single js-states" title="Select Product Category" data-live-search="true">
-                                                            <option>United States</option>
-                                                            <option>Australia</option>
-                                                            <option>Canada</option>
-                                                            <option>Gremany</option>
-                                                            <option>India</option>
-                                                            <option>Japan</option>
-                                                            <option>England</option>
-                                                            <option>Brazil</option>
-                                                        </select>
-                                                        <div class="field-placeholder">Country</div>
-                                                    </div>
-                                                    <!-- Field wrapper end -->
-                                                </div>
-                                                <div class="col-xl-12 col-lg-12 col-md-6 col-sm-6 col-12">
-                                                    <!-- Field wrapper start -->
-                                                    <div class="field-wrapper">
-                                                        <input type="password" class="form-control" placeholder="Enter Password">
-                                                        <div class="field-placeholder">Password</div>
-                                                    </div>
-                                                    <!-- Field wrapper end -->
-                                                </div>
+
                                             </div>
                                         </div>
                                         <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
@@ -182,9 +145,9 @@ $fac_id = $_SESSION["sess-pjr-fac_id"];
                                                                 <div class="list-group-item d-flex justify-content-between align-items-center">
                                                                     <div><?php echo $data['id'] . " " . $data['NAME']; ?></div>
                                                                     <div class="form-switch">
-                                                                        <input class="form-check-input" type="checkbox" id="<?php echo $data['id']; ?>" name="<?php echo $data['id']; ?>" <?php if ($data['role_id'] != "") {
-                                                                                                                                                                                                echo    "checked";
-                                                                                                                                                                                            } ?>>
+                                                                        <input class="form-check-input" type="checkbox" onclick="_addRole(this.value)" id="<?php echo $data['id']; ?>" name="<?php echo $data['id']; ?>" value="<?php echo $data['id']; ?>" <?php if ($data['role_id'] != "") {
+                                                                                                                                                                                                                                                                echo    "checked";
+                                                                                                                                                                                                                                                            } ?>>
                                                                         <label class="form-check-label" for="<?php echo $data['id']; ?>"></label>
                                                                     </div>
                                                                 </div>
@@ -274,8 +237,17 @@ $fac_id = $_SESSION["sess-pjr-fac_id"];
         })()
 
 
-        function _addRole(id) {
-            window.location = '80-staff-add-role.php?staffid=' + id;
+        function _addRole(role) {
+            const staffid = "<?php echo $staffid ?>"
+            $.ajax({
+                type: "POST",
+                url: "80-script-add-role-ajax.php",
+                data: {
+                    staffid,
+                    role
+                }
+
+            })
         }
     </script>
 
